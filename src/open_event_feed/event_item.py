@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, List, Dict
 import datetime
+
 
 @dataclass
 class EventItem:
@@ -17,9 +18,12 @@ class EventItem:
     end_datetime: Optional[datetime.datetime] = None
 
     location: Optional[str] = None
+
+    additional_data: Optional[Dict] = None
     # validations
     # needs start_datetime if end_datetime exists
     # needs organizer_link if organizer name exists
+
 
 if __name__ == "__main__":
     e1 = EventItem(title="test", link="sdfklsdf")
