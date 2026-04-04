@@ -5,6 +5,9 @@ import json
 
 class EventItemJSONEncoder(json.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, EventItem):
+            return {k:v for k,v in obj.__dict__.items() if v is not None}
+
         if isinstance(obj, (datetime.datetime)):
             return obj.isoformat()
 
@@ -33,7 +36,7 @@ class EventItem:
 
     def toJSON(self):
         return json.dumps(
-            self.__dict__,
+            self,
             cls=EventItemJSONEncoder,
             sort_keys=True)
 
