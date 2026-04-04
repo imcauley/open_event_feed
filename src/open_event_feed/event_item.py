@@ -34,12 +34,28 @@ class EventItem:
     # needs start_datetime if end_datetime exists
     # needs organizer_link if organizer name exists
 
+    def __post_init__(self):
+        if type(self.start_datetime) == str:
+            self.start_datetime = datetime.datetime.fromisoformat(self.start_datetime)
+        if type(self.end_datetime) == str:
+            self.start_datetime = datetime.datetime.fromisoformat(self.start_datetime)
+
     def toJSON(self):
         return json.dumps(
             self,
             cls=EventItemJSONEncoder,
             sort_keys=True)
 
+    @staticmethod
+    def fromJSON(json_string):
+        d = json.loads(json_string)
+        return EventItem(**d)
+
 if __name__ == "__main__":
     e1 = EventItem(title="test", link="sdfklsdf", start_datetime=datetime.datetime.now(), additional_data={"test": "abc123"})
+    print(e1)
     print(e1.toJSON())
+    e2 = """
+    {"additional_data": {"test": "abc123"}, "categories": null, "description": null, "end_datetime": null, "language": null, "link": "sdfklsdf", "location": null, "organizer_link": null, "organizer_name": null, "start_datetime": "2026-04-03T23:53:00.087549", "title": "test"}
+    """
+    print(EventItem.fromJSON(e2))
