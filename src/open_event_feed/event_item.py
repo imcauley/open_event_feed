@@ -17,6 +17,8 @@ class EventItemJSONEncoder(json.JSONEncoder):
 class EventItem:
     title: str
     link: str
+    
+    uid: Optional[str] = None
 
     description: Optional[str] = None
     language: Optional[str] = None
@@ -39,6 +41,8 @@ class EventItem:
             self.start_datetime = datetime.datetime.fromisoformat(self.start_datetime)
         if type(self.end_datetime) == str:
             self.start_datetime = datetime.datetime.fromisoformat(self.start_datetime)
+        if self.uid is None:
+            self.uid = f"{self.title}-{self.link}-{self.start_datetime.isoformat()}"
 
     def toJSON(self):
         return json.dumps(
